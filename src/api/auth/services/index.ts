@@ -1,16 +1,18 @@
 import { PrismaService } from '@/modules/core/prisma/services';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { LoginDto, RegisterDto } from '../dtos';
 import { DuplicateUserException } from '../errors';
 import { Prisma } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
+import { UserService } from '@/api/user/services';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
+    private userService: UserService
   ) {}
 
   private async hashPassword(password: string): Promise<string> {
@@ -130,5 +132,19 @@ export class AuthService {
         },
       },
     };
+  }
+
+
+  async validateToken(token : string){
+    try {
+      const decoded = await this.jwtService.verify(token)
+      const user = await this.userService.findUserById(decoded.userId);
+      if(!user){
+        throw new UnauthorizedException('User not found')
+      }
+      return user
+    } catch (error) {
+      throw new UnauthorizedException('Invalid or expired token')
+    }
   }
 }
