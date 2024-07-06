@@ -37,8 +37,14 @@ model Organisation {
 model UserOrganisation {
   userId         String
   organisationId String
+  role           UserRole     
   user           User          @relation(fields: [userId], references: [userId])
   organisation   Organisation  @relation(fields: [organisationId], references: [orgId])
 
   @@id([userId, organisationId])
+}
+
+enum UserRole {
+  CREATOR
+  MEMBER
 }

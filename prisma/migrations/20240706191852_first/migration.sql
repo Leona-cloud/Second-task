@@ -1,21 +1,17 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "UserRole" AS ENUM ('CREATOR', 'MEMBER');
 
-  - You are about to drop the `Organization` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `_UsersOrganization` table. If the table is not empty, all the data it contains will be lost.
+-- CreateTable
+CREATE TABLE "Users" (
+    "userId" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
 
-*/
--- DropForeignKey
-ALTER TABLE "_UsersOrganization" DROP CONSTRAINT "_UsersOrganization_A_fkey";
-
--- DropForeignKey
-ALTER TABLE "_UsersOrganization" DROP CONSTRAINT "_UsersOrganization_B_fkey";
-
--- DropTable
-DROP TABLE "Organization";
-
--- DropTable
-DROP TABLE "_UsersOrganization";
+    CONSTRAINT "Users_pkey" PRIMARY KEY ("userId")
+);
 
 -- CreateTable
 CREATE TABLE "Organisations" (
@@ -30,9 +26,16 @@ CREATE TABLE "Organisations" (
 CREATE TABLE "UserOrganisation" (
     "userId" TEXT NOT NULL,
     "organisationId" TEXT NOT NULL,
+    "role" "UserRole" NOT NULL,
 
     CONSTRAINT "UserOrganisation_pkey" PRIMARY KEY ("userId","organisationId")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Users_userId_key" ON "Users"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Organisations_orgId_key" ON "Organisations"("orgId");
