@@ -26,12 +26,9 @@ import {
         case exception instanceof ValidationException: {
           const exceptionResponse = exception.getResponse();
           const responseBody = {
-            success: false,
-            message: 'Failed Validation',
             errors: exceptionResponse,
-            stack: exception.stack,
           };
-          return httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+          return httpAdapter.reply(ctx.getResponse(), responseBody, HttpStatus.UNPROCESSABLE_ENTITY);
         }
   
         default: {

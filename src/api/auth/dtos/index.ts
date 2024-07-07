@@ -15,6 +15,7 @@ export class RegisterDto {
   @IsString()
   lastName: string;
 
+  @IsNotEmpty()
   @IsEmail({}, { message: 'Email must be valid' })
   email: string;
 
