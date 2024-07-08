@@ -41,7 +41,7 @@ describe(' AuthService (E2E)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/auth/register')
+        .post('/api/auth/register')
         .send(registerUser)
         .expect(HttpStatus.CREATED);
 
@@ -76,7 +76,7 @@ describe(' AuthService (E2E)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/auth/register')
+        .post('/api/auth/register')
         .send(invalidRegDetails)
         .expect(HttpStatus.UNPROCESSABLE_ENTITY);
     });
@@ -103,7 +103,7 @@ describe(' AuthService (E2E)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/auth/register')
+        .post('/api/auth/register')
         .send(duplicateUser)
         .expect(HttpStatus.BAD_REQUEST);
 
@@ -134,7 +134,7 @@ describe(' AuthService (E2E)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/auth/login')
+        .post('/api/auth/login')
         .send(loginUser)
         .expect(HttpStatus.OK);
 
@@ -182,7 +182,7 @@ describe(' AuthService (E2E)', () => {
       };
 
       const response = await request(app.getHttpServer())
-        .post('/auth/login')
+        .post('/api/auth/login')
         .send(loginUser)
         .expect(HttpStatus.UNAUTHORIZED);
 

@@ -72,7 +72,7 @@ describe('OrganizationService', () => {
     expect(result).toEqual({
       status: 'success',
       message: 'Organizations fetched successfully',
-      data: organisations,
+      data: { organisations: organisations },
     });
   });
 
@@ -104,7 +104,9 @@ describe('OrganizationService', () => {
     expect(result).toEqual({
       status: 'success',
       message: 'Organizations fetched successfully',
-      data: [],
+      data: {
+        organisations: [],
+      },
     });
   });
 });
