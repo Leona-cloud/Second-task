@@ -19,8 +19,8 @@ export class RegisterDto {
   @IsEmail({}, { message: 'Email must be valid' })
   email: string;
 
-  @IsPhoneNumber('NG')
-  @Length(11, 11, { message: 'Phone number must be 11 digits' })
+  @IsNotEmpty()
+  @IsString()
   phone: string;
 
   @IsNotEmpty()
