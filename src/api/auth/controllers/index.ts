@@ -5,7 +5,7 @@ import { Request } from 'express';
 import { ValidationPipe } from '@/core/pipe/validation';
 
 @Controller({
-  path: 'api/auth',
+  path: 'auth',
 })
 export class AuthController {
   constructor(private authService: AuthService) {}
