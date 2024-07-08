@@ -23,7 +23,6 @@ describe('OrganizationService', () => {
         updateMany: jest.fn(),
         delete: jest.fn(),
         deleteMany: jest.fn(),
-        // add other methods if needed
       } as unknown as typeof prismaService.organisation,
     };
 

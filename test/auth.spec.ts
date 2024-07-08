@@ -75,14 +75,10 @@ describe(' AuthService (E2E)', () => {
         phone: '09087651098',
       };
 
-     const response =  await request(app.getHttpServer())
+      const response = await request(app.getHttpServer())
         .post('/auth/register')
         .send(invalidRegDetails)
         .expect(HttpStatus.UNPROCESSABLE_ENTITY);
-
-
-    
-        
     });
 
     it('should fail if duplicate email exists', async () => {
@@ -120,7 +116,7 @@ describe(' AuthService (E2E)', () => {
   });
 
   describe('POST auth/login', () => {
-    it('it should log the user in successfully', async () => {
+    it('it should log the user in successfully with valid credentials', async () => {
       const hashedPassword = await bcrypt.hash('password123', 10);
       await prismaService.user.create({
         data: {
@@ -157,6 +153,44 @@ describe(' AuthService (E2E)', () => {
       });
 
       expect(response.body.data.accessToken).toBeDefined();
+    });
+
+    it('should fail if login credentials are invalid', async () => {
+      const hashPassword = await bcrypt.hash('pass123', 10);
+
+      const registerUser = {
+        email: 'johnny2@gmail.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        phone: '09088767890',
+        password: hashPassword,
+      };
+
+      await prismaService.user.create({
+        data: {
+          email: registerUser.email,
+          firstName: registerUser.firstName,
+          lastName: registerUser.lastName,
+          phone: registerUser.phone,
+          password: registerUser.password,
+        },
+      });
+
+      const loginUser = {
+        email: 'johnny2@example.com',
+        password: 'password',
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(loginUser)
+        .expect(HttpStatus.UNAUTHORIZED);
+
+      expect(response.body).toMatchObject({
+        status: 'Bad Request',
+        message: 'Authentication failed',
+        statusCode: HttpStatus.UNAUTHORIZED,
+      });
     });
   });
 });
