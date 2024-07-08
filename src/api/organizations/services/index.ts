@@ -22,7 +22,7 @@ export class OrganizationService {
     return {
       status: 'success',
       message: 'Organizations fetched successfully',
-      data: organizations,
+      data: { organisations : organizations },
     };
   }
 
